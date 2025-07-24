@@ -3,6 +3,7 @@ import "dotenv/config"
 import authRoutes from "./routes/auth.route.js"
 import { connectDB } from './lib/db.js'
 import mongoose from 'mongoose'
+import cookieParser from "cookie-parser" 
 
 
 const app = express()
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/XChat')
 //18:00
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 
