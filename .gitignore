@@ -1,6 +1,10 @@
+# Ignore node_modules from frontend and backend
 frontend/node_modules/
 backend/node_modules/
 
+# Optional ignores
 *.log
 .env
+dist/
+build/
 .DS_Store
