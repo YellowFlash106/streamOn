@@ -161,11 +161,11 @@ export async function onboard(req,res) {
         }
 
         const updatedUser = await User.findByIdAndUpdate(userId, {
-            // fullName, bio, 
-            // nativeLanguage, 
-            // learningLanguage, 
-            // location // insted of this we can use this also
-            ...req.body,
+            fullName, bio, 
+            nativeLanguage, 
+            learningLanguage, 
+            location , // insted of this we can use this also
+            // ...req.body,
             isOnboarded: true,
         }, {new : true})
 
@@ -188,7 +188,6 @@ export async function onboard(req,res) {
             console.log('Error updating Stream user during onboarding', str.message);
             
         }
-        
         res.status(200).json({ 
         success: true,
         user : updatedUser,
@@ -202,4 +201,3 @@ export async function onboard(req,res) {
     
     }
 }
-// 1:24 postman
