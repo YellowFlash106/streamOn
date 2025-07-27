@@ -18,6 +18,4 @@ router.get("/me", protectRoute, (req,res)=>{
     })
 })
 
-export default router
-// 1 : 30
-// 40
+export default router;
