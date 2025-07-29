@@ -14,7 +14,7 @@ router.post("/onboarding", protectRoute, onboard);
 router.get("/me", protectRoute, (req,res)=>{
      res.status(200).json({ 
         success: true,
-        data: req.user,
+        user: req.user,
     })
 })
 
