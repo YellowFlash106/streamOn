@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { ApertureIcon, ShipWheelIcon } from 'lucide-react'
+import { ApertureIcon } from 'lucide-react'
 import { Link } from 'react-router'
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { signup } from '../lib/api'
 import { useNavigate } from 'react-router'
+import useSignup from '../hooks/useSignup.js'
 
-import { axiosInstance } from '../lib/axios'
 
 const SignUpPage = () => {
   
@@ -16,13 +14,15 @@ const SignUpPage = () => {
     password: "",
   })
 
-  const queryClient = useQueryClient();
+  // this is without hooks
+  // const queryClient = useQueryClient();
+  // const { mutate : signupMutation, isPending, error } =useMutation({
+  //   mutationFn: signup,
+  //   onSuccess: () =>{ queryClient.invalidateQueries({queryKey : ["authUser"]}),
+  //   navigate("/");}
+  // });
 
-  const { mutate : signupMutation, isPending, error } =useMutation({
-    mutationFn: signup,
-    onSuccess: () =>{ queryClient.invalidateQueries({queryKey : ["authUser"]}),
-    navigate("/");}
-  });
+  const {isPending, error,signupMutation } = useSignup(); 
 
   const handleSignup = (e) => {
     e.preventDefault();

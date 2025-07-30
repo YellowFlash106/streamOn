@@ -23,17 +23,20 @@ const App = () => {
   if( isLoading) return <PageLoader/>
 
   return (
-    <div className=' h-screen' data-theme="night">
+    <div className=' h-screen' data-theme="forest">
       <Routes>
       <Route path="/" element={ isAuthenticated && isOnboarded ? ( <HomePage/> ) :(
         <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
        ) } />
         <Route path="/onboarding" element={ isAuthenticated ? ( !isOnboarded ? ( <OnBoardingPage/>) : (<Navigate to="/" />)
        ) : ( <Navigate to="/login" /> ) } />
-       
-      <Route path="/signup" element={!isAuthenticated ? <SignUpPage/>  : <Navigate to="/" /> } />
-      <Route path="/login" element={!isAuthenticated ? <LoginPage/> : <Navigate to="/" /> } />
-      <Route path="/call" element={isAuthenticated ? <CallPage/> : <Navigate to="/login" /> } />
+
+      <Route path="/signup" element={!isAuthenticated ? <SignUpPage/>  : 
+      <Navigate to={ isOnboarded ? "/" : "/onboarding"   } /> } />
+      <Route path="/login" element={!isAuthenticated ? <LoginPage/> : 
+      <Navigate to={ isOnboarded ? "/" : "/onboarding"   } /> } />
+
+      <Route path="/call" element={isAuthenticated ? <CallPage/> :  <Navigate to="/login" /> } />
       <Route path="/Chat" element={ isAuthenticated ? <ChatPage/> : <Navigate to="/login" /> } />
 
      

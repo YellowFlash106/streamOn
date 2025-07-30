@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
 import useAuthUser from '../hooks/useAuthUser.js';
 import toast from 'react-hot-toast';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { completeOnboarding } from '../lib/api.js';
 import { CameraIcon, LoaderIcon, MapPinned, RefreshCcwDot, ShipWheelIcon } from 'lucide-react';
 import { LANGUAGES } from '../constants/index.js'
+import useOnBoarding from '../hooks/useOnBoarding.js';
 
 const OnBoardingPage = () => {
 
   const { authUser } =  useAuthUser();
-  const queryClient = useQueryClient();
-
+  
   const [formState, setFormState] = useState({
     fullName: authUser?.fullName || "",
     bio: authUser?.bio || "",
@@ -19,17 +17,20 @@ const OnBoardingPage = () => {
     location: authUser?.location || "",
     profilePic: authUser?.profilePic || "",
   });
-
-  const {mutate: onboardingMutation, isPending} = useMutation({
-    mutationFn : completeOnboarding,
-    onSuccess: () => {
-      toast.success("Profile onboarded successfully");
-      queryClient.invalidateQueries({ queryKey: ["authUser"]});
-    },
-    onError: (error)=>{
-      toast.error(error?.response?.data?.message)
-    }
-  });
+  
+  // const queryClient = useQueryClient();
+  // const {mutate: onboardingMutation, isPending} = useMutation({
+  //   mutationFn : completeOnboarding,
+  //   onSuccess: () => {
+  //     toast.success("Profile onboarded successfully");
+  //     queryClient.invalidateQueries({ queryKey: ["authUser"]});
+  //   },
+  //   onError: (error)=>{
+  //     toast.error(error?.response?.data?.message)
+  //   }
+  // });
+  
+  const {isPending, onboardingMutation } =  useOnBoarding();
 
   const handleSubmit = (e) => {
     e.preventDefault();
