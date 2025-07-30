@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router'
-
 import HomePage from "./pages/HomePage.jsx"
 import SignUpPage from "./pages/SignUpPage.jsx"
 import LoginPage from "./pages/LoginPage.jsx"
@@ -12,6 +10,7 @@ import ChatPage from './pages/ChatPage.jsx'
 import { Toaster } from 'react-hot-toast'
 import PageLoader from './components/PageLoader.jsx'
 import  useAuthUser  from "./hooks/useAuthUser.js"
+import Layout from './components/Layout.jsx'
 
 
 const App = () => {
@@ -25,7 +24,9 @@ const App = () => {
   return (
     <div className=' h-screen' data-theme="forest">
       <Routes>
-      <Route path="/" element={ isAuthenticated && isOnboarded ? ( <HomePage/> ) :(
+      <Route path="/" element={ isAuthenticated && isOnboarded ? (<Layout showSidebar={true}>
+        <HomePage/>
+      </Layout>) :(
         <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
        ) } />
         <Route path="/onboarding" element={ isAuthenticated ? ( !isOnboarded ? ( <OnBoardingPage/>) : (<Navigate to="/" />)
