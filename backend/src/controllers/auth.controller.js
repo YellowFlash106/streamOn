@@ -147,7 +147,7 @@ export async function onboard(req,res) {
         const {fullName, bio, nativeLanguage, learningLanguage, location} = req.body;
         
         if(!fullName || !bio || !nativeLanguage || !learningLanguage || !location){
-        res.status(400).json({ 
+        return  res.status(400).json({ 
         success: false,
         message: "All fields are required.",
         missingFeilds: [

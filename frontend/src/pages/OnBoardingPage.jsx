@@ -3,7 +3,8 @@ import useAuthUser from '../hooks/useAuthUser.js';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { completeOnboarding } from '../lib/api.js';
-import { CameraIcon } from 'lucide-react';
+import { CameraIcon, LoaderIcon, MapPinned, RefreshCcwDot, ShipWheelIcon } from 'lucide-react';
+import { LANGUAGES } from '../constants/index.js'
 
 const OnBoardingPage = () => {
 
@@ -14,16 +15,19 @@ const OnBoardingPage = () => {
     fullName: authUser?.fullName || "",
     bio: authUser?.bio || "",
     nativeLanguage: authUser?.nativeLanguage || "",
-    learninLanguage: authUser?.learninLanguage || "",
+    learningLanguage: authUser?.learningLanguage || "",
     location: authUser?.location || "",
     profilePic: authUser?.profilePic || "",
   });
 
   const {mutate: onboardingMutation, isPending} = useMutation({
-    mutationFu : completeOnboarding,
-    onSccess: () => {
+    mutationFn : completeOnboarding,
+    onSuccess: () => {
       toast.success("Profile onboarded successfully");
       queryClient.invalidateQueries({ queryKey: ["authUser"]});
+    },
+    onError: (error)=>{
+      toast.error(error?.response?.data?.message)
     }
   });
 
@@ -31,6 +35,14 @@ const OnBoardingPage = () => {
     e.preventDefault();
     onboardingMutation(formState)
   }
+
+  const handleRandomAvatar = () => {
+    const idx = Math.floor(Math.random() * 100) + 1; // 1 - 100
+    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+    setFormState({ ...formState, profilePic: randomAvatar });
+    toast.success("Random Profilepic generated");
+   };
+  
   
 
   return (
@@ -58,11 +70,113 @@ const OnBoardingPage = () => {
             )}
           </div>
           {/* Generate Random Avtar BTN */}
-          <div>
-
+          <div className='flex items-center gap-2'>
+            <button type='button' onClick={handleRandomAvatar} className='btn btn-accent'>
+              <RefreshCcwDot className='size-4 mr-2 animate-spin ' />
+              Generate Random Avatar
+            </button>
           </div>
-          
-        </div>
+           </div>
+
+          {/*Full Name  */}
+            <div className='form-control '>
+              <label className='label'>
+              <span className='label-text'>Full Name</span>
+              </label>
+
+              <input type="text" name='fullName'
+              placeholder='Your full name'
+              className='input input-bordered w-full'
+              value={formState.fullName}
+              onChange={(e) => setFormState({...formState, fullName : e.target.value})}
+               />
+            </div>
+
+            {/*BIO  */}
+            <div className='form-control '>
+              <label className='label'>
+              <span className='label-text'>Bio</span>
+              </label>
+
+              <textarea name='bio'
+              placeholder='Tell others about yourself and your language learning goals'
+              className='textarea textarea-bordered h-24'
+              value={formState.bio}
+              onChange={(e) => setFormState({...formState, bio : e.target.value})}
+               />
+            </div>
+
+            {/*Languages  */}
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              {/* Native Language */}
+            <div className='form-control'>
+              <label className='label'>
+                <span className='label-text'>Native Language</span>
+              </label>
+              <select name="nativeLanguage" value={formState.nativeLanguage} 
+              onChange={(e) => setFormState({...formState, nativeLanguage: e.target.value}) }
+              className='select select-bordered w-full'
+              >
+                <option value="">Select your language</option>
+                { LANGUAGES.map((lang) => (
+                  <option key={`native-${lang}`} value={lang.toLowerCase()}>
+                    {lang}
+                  </option>
+                ))}
+              </select>
+
+            </div>
+
+              {/* Learning Language */}
+            <div className='form-control'>
+              <label className='label'>
+                <span className='label-text'>Learning Language</span>
+              </label>
+              <select name="learningLanguage" 
+              value={formState.learningLanguage} 
+              onChange={(e) => setFormState({...formState, learningLanguage: e.target.value}) }
+              className='select select-bordered w-full'
+              >
+                <option value="">Select language you're learning</option>
+                { LANGUAGES.map((lang) => (
+                  <option key={`learning-${lang}`} value={lang.toLowerCase()}>
+                    {lang}
+                  </option>
+                ))}
+              </select>
+            </div>
+            </div>
+
+            {/* Location*/}
+           <div className='form-control '>
+              <label className='label'>
+              <span className='label-text'>Location</span>
+              </label>
+              <div className='relative'>
+                <MapPinned className='absolute top-1/2 transform -translate-y-1/2 left-3 size-5
+                text-base-content opacity-70' />
+              <input type="text" name='location'
+              placeholder='City, Country'
+              className='input input-bordered w-full pl-10'
+              value={formState.location}
+              onChange={(e) => setFormState({...formState, location : e.target.value})}
+              />
+            </div>
+            </div>
+
+            {/* Submit btn  */}
+            <button className='btn btn-primary w-full' disabled={isPending} type='submit'>
+              {!isPending ? (
+                <>
+                <ShipWheelIcon className='size-5 mr-2'/>
+                Complete OnBoarding
+                </>
+              ) : ( <>
+                <LoaderIcon className='animate-spin size-5 mr-2'/>
+                OnBoarding...
+                </>)}
+            </button>
+
       </form>
 
     </div>
