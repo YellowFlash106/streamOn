@@ -51,3 +51,13 @@ export async function sendFriendRqst (userId){
     return res.data;
 }
 
+export async function getFriendRqsts (){
+    const res = await axiosInstance.get(`/users/friend-requests`);
+    return res.data;
+}
+
+export async function acceptFriendRqst (requestId){
+    const res = await axiosInstance.put(`/users/friend-request/${requestId}/accept`);
+    return res.data;
+}
+
