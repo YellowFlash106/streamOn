@@ -8,7 +8,7 @@ export async function getRecommendedUsers(req, res) {
         const recommendedUsers = await User.find({
             $and: [
                 {_id : {$ne : currUserId}},   // exclude current user
-                {$id : {$nin : currUser.friends}},   // exclude current users friends
+                {_id : {$nin : currUser.friends}},   // exclude current users friends
                 {isOnboarded : true},
             ]
         })
@@ -111,7 +111,7 @@ export async function acceptFriendRequest(req, res) {
             })     
         }
 
-        friendRequest.status = " accepted";
+        friendRequest.status = "accepted";
         await friendRequest.save();
 
         //add each user to the other's friend array
@@ -124,7 +124,7 @@ export async function acceptFriendRequest(req, res) {
             $addToSet :{ friends : friendRequest.sender},
         });
         
-        res.status(403).json({
+        res.status(200).json({
             message : "Friend request accepted"
             })     
         
@@ -169,7 +169,7 @@ export async function getOutgoingFriendReqs(req, res) {
             status: "pending",
         }).populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
         
-        res.status(200).json({ outgoingReqs }) 
+        res.status(200).json( outgoingReqs ) ;
     } catch (error) {
     console.log('Error in getOutgoingFriendRequest controller', error.message);
     res.status(500).json({

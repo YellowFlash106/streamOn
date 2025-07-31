@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const friendRequestSchema = new mongoose.Schema({
     sender :{
@@ -12,7 +12,8 @@ const friendRequestSchema = new mongoose.Schema({
         required : true,
     },
     status :{
-        type : mongoose.Schema.Types.ObjectId,
+        // type : mongoose.Schema.Types.ObjectId,
+         type : String,
         enum: ["pending", "accepted"],
         default : "pending",
     },
