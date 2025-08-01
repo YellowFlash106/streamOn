@@ -26,35 +26,39 @@ const App = () => {
   return (
     <div className=' h-screen' data-theme={theme}>
       <Routes>
-      <Route path="/" element={ isAuthenticated && isOnboarded ? (<Layout showSidebar={true}>
-        <HomePage/>
-      </Layout>) :(
+
+      <Route path="/" element={ isAuthenticated && isOnboarded ?
+        (<Layout showSidebar={true}> <HomePage/>  </Layout> 
+        ):(
         <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
-       ) } />
-        <Route path="/onboarding" element={ isAuthenticated ? ( !isOnboarded ? ( <OnBoardingPage/>) : (<Navigate to="/" />)
-       ) : ( <Navigate to="/login" /> ) } />
+        )} />
+
+      <Route path="/onboarding" element={ isAuthenticated ? 
+        ( !isOnboarded ? ( <OnBoardingPage/>) : (<Navigate to="/" />)
+        ) : ( <Navigate to="/login" /> ) } />
 
       <Route path="/signup" element={!isAuthenticated ? <SignUpPage/>  : 
-      <Navigate to={ isOnboarded ? "/" : "/onboarding"   } /> } />
+        <Navigate to={ isOnboarded ? "/" : "/onboarding"   } /> } />
+
       <Route path="/login" element={!isAuthenticated ? <LoginPage/> : 
-      <Navigate to={ isOnboarded ? "/" : "/onboarding"   } /> } />
+        <Navigate to={ isOnboarded ? "/" : "/onboarding"   } /> } />
 
       <Route path="/call" element={isAuthenticated ? <CallPage/> :  <Navigate to="/login" /> } />
-      <Route path="/Chat" element={ isAuthenticated ? <ChatPage/> : <Navigate to="/login" /> } />
 
-     
+      <Route path="/chat/:id" element={ isAuthenticated && isOnboarded ? (
+        <Layout showSidebar={false} > <ChatPage/>   </Layout>
+        ) : (
+        <Navigate to={ !isAuthenticated ?  "/login" : "/onboarding"} />
+        )  } />
+
       <Route path="/notifications" element={ isAuthenticated && isOnboarded ? (
-        <Layout showSidebar={true} >
-           <NotificationsPage/> 
-        </Layout>
-      ) : (
-         <Navigate to={ isAuthenticated ?  "/login" : "/onboarding"} />
-      )  } />
+        <Layout showSidebar={true} > <NotificationsPage/>  </Layout>
+        ) : (
+        <Navigate to={ !isAuthenticated ?  "/login" : "/onboarding"} />
+        )  } />
       
       </Routes>
-
       <Toaster/>
-
     </div>
   )
 }
