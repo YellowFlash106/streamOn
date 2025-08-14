@@ -33,10 +33,10 @@ Highlights:
 <img width="1881" height="942" alt="Screenshot 2025-08-14 170245" src="https://github.com/user-attachments/assets/853f456d-052e-49f0-af9e-8922d1b22b92" /> 
 <img width="950" height="988" alt="Screenshot 2025-08-14 165825" src="https://github.com/user-attachments/assets/fdd43dd9-dec9-438f-92bc-db7582f51f14" />
 
-# Others 
-
+# 32 Theme Select Options
 <img width="1918" height="993" alt="Screenshot 2025-08-14 170046" src="https://github.com/user-attachments/assets/60b81ece-6d17-482b-8bf5-f74ba4595f5b" />
 
+# Others 
 
 <img width="1903" height="989" alt="Screenshot 2025-08-14 165653" src="https://github.com/user-attachments/assets/f7a3f10c-66a6-4588-9e45-e7602c575fd3" />
 
